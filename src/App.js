@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import FormApplicant from './components/forms/FormApplicant'
 
 
-
+/**
+  Class that contains the logic of a loan application form and the application result.
+  */
 class App extends React.Component{
 
 constructor(props) {
@@ -16,6 +18,10 @@ constructor(props) {
     this.handleOnReset = this.handleOnReset.bind(this);
   }
 
+/**
+  Handler of the callback of the response of the loan application, it sets the response value for this class 
+  in order to set a state of the rendered view
+  */
   myCallback(callbackInfo) {
     console.log(callbackInfo)
     this.setState({
@@ -23,16 +29,16 @@ constructor(props) {
     });
   }
 
+/**
+  Handler of the button actions 
+  */
   handleOnClick(event) {
     console.log(event)
   }
 
-  handleOnReset(event) {
-    console.log(event)
-    this.setState({
-      response: ""
-    });
-  }
+/**
+  Renderer of the application form and the result of the status of the aplication
+  */
 
 render() {
 return (

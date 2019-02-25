@@ -2,6 +2,9 @@ import React from 'react'
 import axios from 'axios'
 import NumberFormat from 'react-number-format'
 
+/**
+  FormApplicant class, contains all the fields necessary to complete the form of a loan application
+  */
 class FormApplicant extends React.Component {
   constructor(props) {
     super(props);
@@ -30,6 +33,9 @@ class FormApplicant extends React.Component {
   }
 
 
+  /**
+  Handles every event of the form and set it automatically to its respective variable of the state
+  */
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -40,6 +46,9 @@ class FormApplicant extends React.Component {
     });
   }
 
+/**
+  Handles the submitting of the form, doing an axios POST call sending as part of the request the requestedAmount
+  */
   handleSubmit(event) {
     // change code below this line
       const req = {
@@ -61,13 +70,20 @@ class FormApplicant extends React.Component {
       
       event.preventDefault()
     }
+
+    /**
+	Handler of the event of checking the status of the application, this function sets as a props values the response
+	of the financial analasys
+  */
     handleOnClick(event) {
     // change code below this line
     this.props.callbackFromParent(this.state.response)
 
     }
 
-
+/**
+	Form with its inputs for every field needed to fullfil the registration
+  */
   render() {
     return (
     <div>
