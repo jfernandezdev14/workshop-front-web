@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import NumberFormat from 'react-number-format'
 
 class FormApplicant extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class FormApplicant extends React.Component {
 
   handleInputChange(event) {
     const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const value = target.value;
     const name = target.name;
 
     this.setState({
@@ -34,29 +35,25 @@ class FormApplicant extends React.Component {
   handleSubmit(event) {
     // change code below this line
       const req = {
-        requestedAmount: this.state.requestedAmount
+        requestedAmount: Number(this.state.requestedAmount)
        }
-      const headers = {
-                headers: {
-                	'Access-Control-Allow-Origin': '*',
-                	'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS',
-                	'Access-Control-Request-Method': 'POST'
-                }
-              }
       
-      const resp = ""
+      
+      let resp = ""
        let err = ""
 
-      axios.post('https://obscure-harbor-53052.herokuapp.com/api/loandecision/', headers, req)
+      axios.post('https://obscure-harbor-53052.herokuapp.com/api/loandecision/', req)
       .then((response) => { 
         resp = response
+        console.log(response)
       }).catch((error) => {
                 console.log(error)
                 err=error
             })
 
       this.setState({
-      responseError: err
+      	response: resp,
+      	responseError: err
     });
       event.preventDefault();
     }
@@ -129,9 +126,8 @@ class FormApplicant extends React.Component {
         <br />
         <label>
           Requested amount:
-          <input
+          <NumberFormat
             name="requestedAmount"
-            type="input"
             value={this.state.requestedAmount}
             onChange={this.handleInputChange} />
         </label>
@@ -144,7 +140,7 @@ class FormApplicant extends React.Component {
              >Submit</button>
         </label>
 
-        <h1>{this.state.taxId} {this.state.response} {this.state.responseError}</h1>
+        <h1>{this.state.response}</h1>
       </form>
     );
   }
