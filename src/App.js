@@ -8,30 +8,37 @@ class App extends React.Component{
 constructor(props) {
     super(props);
     this.state = {
-    
+      response: ""
     };
 
-    this.handleInputChange = this.handleInputChange.bind(this);
+    this.myCallback = this.myCallback.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
+    this.handleOnReset = this.handleOnReset.bind(this);
   }
 
-handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
+  myCallback(callbackInfo) {
+    console.log(callbackInfo)
     this.setState({
-      [name]: value
+      response: callbackInfo
     });
   }
-  
 
+  handleOnClick(event) {
+    console.log(event)
+  }
+
+  handleOnReset(event) {
+    console.log(event)
+    this.setState({
+      response: ""
+    });
+  }
 
 render() {
 return (
-    <div>
-      <FormApplicant />
-      <br/>
-      <h1>{this.state.response}</h1>
+    <div >
+      {this.state.response === ""? <FormApplicant callbackFromParent={this.myCallback} onClick={this.handleOnClick}/> : null}
+      {this.state.response !== ""? <h1>{this.state.response}</h1>: null}
     </div>
     );
   }

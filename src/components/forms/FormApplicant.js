@@ -13,12 +13,20 @@ class FormApplicant extends React.Component {
       state: "",
       postalCode: "",
       requestedAmount: 0,
+      socialSecurityNumber: "",
+      name: "",
+      email: "",
+      ownerAddress: "",
+      ownerCity: "",
+      ownerState: "",
+      ownerPostalCode: "",
       response: "",
       responseError: ""
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleOnClick = this.handleOnClick.bind(this);
   }
 
 
@@ -37,30 +45,32 @@ class FormApplicant extends React.Component {
       const req = {
         requestedAmount: Number(this.state.requestedAmount)
        }
-      
-      
-      let resp = ""
-       let err = ""
+            
 
       axios.post('https://obscure-harbor-53052.herokuapp.com/api/loandecision/', req)
-      .then((response) => { 
-        resp = response
-        console.log(response)
-      }).catch((error) => {
-                console.log(error)
-                err=error
+      .then(response => {
+      	console.log(response);
+      	console.log(response.data);
+      	this.setState({
+      		response: response.data.decision
+    	});
+      }).catch(error => {
+                console.log(error)               
             })
 
-      this.setState({
-      	response: resp,
-      	responseError: err
-    });
-      event.preventDefault();
+      
+      event.preventDefault()
+    }
+    handleOnClick(event) {
+    // change code below this line
+    this.props.callbackFromParent(this.state.response)
+
     }
 
 
   render() {
     return (
+    <div>
       <form onSubmit={this.handleSubmit}>
       <label>
       Fill up the following form:
@@ -132,16 +142,92 @@ class FormApplicant extends React.Component {
             onChange={this.handleInputChange} />
         </label>
         <br />
+        <br />
+      <label>
+      Owner information:
+      </label>
+      <br />
         <label>
-          Submit business information: 
+          Social Security Number:
+          <input
+            name="socialSecurityNumber"
+            type="input"
+            value={this.state.socialSecurityNumber}
+            onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Name:
+          <input
+            name="name"
+            type="input"
+            value={this.state.name}
+            onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Email:
+          <input
+            name="email"
+            type="input"
+            value={this.state.email}
+            onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Address:
+          <input
+            name="ownerAddress"
+            type="input"
+            value={this.state.ownerAddress}
+            onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          City:
+          <input
+            name="ownerCity"
+            type="input"
+            value={this.state.ownerCity}
+            onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          State:
+          <input
+            name="ownerState"
+            type="input"
+            value={this.state.ownerState}
+            onChange={this.handleInputChange} />
+        </label>
+        <br />
+        <label>
+          Postal Code:
+          <input
+            name="ownerPostalCode"
+            type="input"
+            value={this.state.ownerPostalCode}
+            onChange={this.handleInputChange} />
+        </label>
+        <br/>
+        <br/>
+        <label>
+          Submit application: 
           <button
             name="submit"
             type="submit"
              >Submit</button>
         </label>
-
-        <h1>{this.state.response}</h1>
       </form>
+      <br/>
+        <label>
+          Check application status: 
+          <button
+            name="status"
+            onClick={this.handleOnClick}
+             >Check Status</button>
+        </label>
+      </div>
     );
   }
 }
